@@ -28,4 +28,9 @@ sudo service ssh restart
 
 # Create key ssh : 
 - generate from local machine : ssh-keygen -t rsa -b 4096 -C "mail@mail.fr"
-- connect to virtual machine, coppy the key in .ssh/id_rsa.pub (local) to .ssh/authorized_keys (vm)
+- create .ssh dir with special rights in vm : mkdir -m 700 .ssh 
+- connect to virtual machine, coppy the key in .ssh/id_rsa.pub (local) to .ssh/authorized_keys (vm) 
+- change rights for the file : chmod 600 .ssh/authorized_keys
+
+# Set-Up Cron : 
+- crontab -e
