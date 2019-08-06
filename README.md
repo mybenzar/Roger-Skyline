@@ -22,3 +22,10 @@ Resources:
             dhcp4: no
     version: 2
 - save changes : sudo netplan apply
+
+# Restart ssh : 
+sudo service ssh restart
+
+# Create key ssh : 
+- generate from local machine : ssh-keygen -t rsa -b 4096 -C "mail@mail.fr"
+- connect to virtual machine, coppy the key in .ssh/id_rsa.pub (local) to .ssh/authorized_keys (vm)
