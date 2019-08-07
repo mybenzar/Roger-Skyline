@@ -52,6 +52,7 @@ Alternative:
 
 # Flush
 iptables -F
+iptables -X
 
 # Policies
 iptables -P OUTPUT DROP
@@ -62,12 +63,22 @@ iptables -P FORWARD DROP
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
+# Enable Ping
+iptables -A INPUT -p icmp -j ACCEPT
+iptables -A OUTPUT -p icmp -j ACCEPT
+
 # Enable Loopback
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 
 # Open SSH port so we can access it from outside
 iptables -A INPUT -p tcp --dport 2222 -j ACCEPT
+
+# DNS
+iptables -A INPUT -p tcp --dport 53 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 53 -j ACCEPT
+iptables -A INPUT -p udp --dport 53 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
 
 # HTTP
 #iptables -A INPUT -p tcp --dport 80 -j ACCEPT
@@ -77,4 +88,9 @@ iptables -A INPUT -p tcp --dport 2222 -j ACCEPT
 #iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 #iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
 
+```
+- remove 'sh' extension
+- chmod +x firewall
+```
+sudo apt-get install -y iptables-persistent
 ```
