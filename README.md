@@ -47,7 +47,6 @@ Alternative:
 - display listening ports : netsat --inet -npl
 - show iptables rules that are currently applied : sudo iptables -L
 - create sh file with all rules :
-    - iptables -F
 ``` sh
 #!/bin/bash
 
