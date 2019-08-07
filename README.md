@@ -13,15 +13,19 @@ Resources:
 
 # Static Ip :
 - sudo vi /etc/netplan/*.yaml
-- network:
+```
+network:
     ethernets:
-        enp0s3:
-            addresses: [192.168.1.2/30]
-            gateway4: 192.168.1.1
+        enp0s8:
+            addresses: [10.0.0.1/30]
+            gateway4: 10.11.254.254
             nameservers:
-              addresses: [8.8.8.8,8.8.4.4]
+              addresses: [10.11.254.254,8.8.8.8]
             dhcp4: no
+        enp0s3:
+            dhcp4: yes
     version: 2
+```
 - save changes : sudo netplan apply
 
 # Restart ssh : 
@@ -42,3 +46,36 @@ Alternative:
 # Firewall
 - display listening ports : netsat --inet -npl
 - show iptables rules that are currently applied : sudo iptables -L
+- create sh file with all rules :
+    - iptables -F
+``` sh
+#!/bin/bash
+
+# Flush
+iptables -F
+
+# Policies
+iptables -P OUTPUT DROP
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+
+# To keep established connections
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Enable Loopback
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# Open SSH port so we can access it from outside
+iptables -A INPUT -p tcp --dport 2222 -j ACCEPT
+
+# HTTP
+#iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+#iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+
+# HTTPS
+#iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+#iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
+
+```
