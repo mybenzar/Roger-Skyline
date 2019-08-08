@@ -91,6 +91,7 @@ iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
 ```
 - remove 'sh' extension
 - chmod +x firewall
+- put firewall in init.d
 ```
 sudo apt-get install -y iptables-persistent
 ```
@@ -100,4 +101,49 @@ basically, once the iptables changes have been applied:
 apt-get install iptables-persistent -y
 apt-get install netfilter-persistent -y
 iptables-save > /etc/iptables/rules.v4
+netfilter-persistent save
+```
+# DOS protection
+```
+apt-get install fail2ban
+```
+```
+cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+```
+in /etc/fail2ban/jail.local, add : 
+```
+[sshd]
+enabled     = true
+port        = ssh
+filter      = sshd
+action      = iptables[name=SSH, port=2222, protocol=tcp]
+ignoreip    = 10.0.2.2
+logpath     = /var/log/auth.log
+maxretry    = 3
+bantime     = 1800
+```
+useful commands for fail2ban
+- to check who tried to connect and how many times (jail)
+```
+fail2ban-client status
+```
+# Ports scan protection
+```
+apt-get install portsentry
+vi /etc/default/portsentry
+TCP_MODE="atcp"
+UDP_MODE="audp"
+vi /etc/portsentry/portsentry.conf
+BLOCK_UDP="1"
+BLOCK_TCP="1"
+uncomment KILL_ROUTE="/sbin/iptables -I ..."
+```
+service portsentry restart
+
+# Other useful commands
+```
+service [service_name] status
+service [service_name] restart
+service [service_name] start
 ```
