@@ -94,3 +94,10 @@ iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
 ```
 sudo apt-get install -y iptables-persistent
 ```
+check out tutorial for Ubuntu 18.04 : https://linuxconfig.org/how-to-make-iptables-rules-persistent-after-reboot-on-linux
+basically, once the iptables changes have been applied:
+```
+apt-get install iptables-persistent -y
+apt-get install netfilter-persistent -y
+iptables-save > /etc/iptables/rules.v4
+```
