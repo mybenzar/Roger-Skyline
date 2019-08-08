@@ -157,3 +157,11 @@ service [service_name] status
 service [service_name] restart
 service [service_name] start
 ```
+
+# Save Checksum
+```
+cd /sgoinfre/goinfre/Perso/mybenzar/virtualbox/virtualbox_vm/rs1/
+```
+```
+shasum rs1.vdi
+```
