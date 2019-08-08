@@ -131,16 +131,25 @@ fail2ban-client status
 # Ports scan protection
 ```
 apt-get install portsentry
+```
+```
 vi /etc/default/portsentry
+```
+```
 TCP_MODE="atcp"
 UDP_MODE="audp"
+```
+```
 vi /etc/portsentry/portsentry.conf
+```
+```
 BLOCK_UDP="1"
 BLOCK_TCP="1"
 uncomment KILL_ROUTE="/sbin/iptables -I ..."
 ```
+```
 service portsentry restart
-
+```
 # Other useful commands
 ```
 service [service_name] status
