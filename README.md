@@ -123,6 +123,7 @@ logpath     = /var/log/auth.log
 maxretry    = 3
 bantime     = 1800
 ```
+comment sshd rules
 useful commands for fail2ban
 - to check who tried to connect and how many times (jail)
 ```
